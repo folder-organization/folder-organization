@@ -1,10 +1,10 @@
+use ignore::WalkBuilder;
 use std::env;
 use std::path::Path;
-use ignore::WalkBuilder;
 
-fn get_subfolders(folder_path: &Path) -> Vec<String> {
-    let mut subfolders: Vec<String> = Vec::new();
-    
+fn get_subfolders_path(folder_path: &Path) -> Vec<String> {
+    let mut subfolders_path: Vec<String> = Vec::new();
+
     let walker = WalkBuilder::new(folder_path)
         .max_depth(Some(1))
         .git_ignore(true)
@@ -13,18 +13,42 @@ fn get_subfolders(folder_path: &Path) -> Vec<String> {
     for result in walker {
         if let Ok(entry) = result {
             let current_path = entry.path();
-            
+
             if current_path.is_dir() && current_path != folder_path {
-                if let Some(nom) = current_path.file_name() {                    
+                if let Some(nom) = current_path.file_name() {
                     if let Some(nom_str) = nom.to_str() {
-                        subfolders.push(nom_str.to_string());
+                        subfolders_path.push(nom_str.to_string());
                     }
                 }
             }
         }
     }
-    
-    subfolders
+
+    subfolders_path
+}
+fn get_subfolders_name(folder_path: &Path) -> Vec<String> {
+    let mut subfolders_name: Vec<String> = Vec::new();
+
+    let walker = WalkBuilder::new(folder_path)
+        .max_depth(Some(1))
+        .git_ignore(true)
+        .build();
+
+    for result in walker {
+        if let Ok(entry) = result {
+            let current_path = entry.path();
+
+            if current_path.is_dir() && current_path != folder_path {
+                if let Some(nom) = current_path.file_name() {
+                    if let Some(nom_str) = nom.to_str() {
+                        subfolders_name.push(nom_str.to_string());
+                    }
+                }
+            }
+        }
+    }
+
+    subfolders_name
 }
 
 fn main() {
@@ -41,8 +65,19 @@ fn main() {
         eprintln!("Path specified is not a valid folder: {}", folder);
         return;
     }
-    
-    let subfolders = get_subfolders(path);    
+
+    // firstly, get all folders path as a Vector, e.g.
+    // ["folder-organization", "folder-organization/src", "folder-organization/tests", "folder-organization/tests/sub1"]
+
+    // secondly, get direct subfolders of each folder
+    // {
+    //  "folder-organization": ["src", "tests"],
+    //  "folder-organization/src": [],
+    //  "folder-organization/tests": ["sub1"],
+    //  "folder-organization/tests/sub1": [],
+    // }
+
+    let subfolders = get_subfolders_name(path);
     let mut result = String::new();
 
     for folder in subfolders {
