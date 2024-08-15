@@ -1,6 +1,6 @@
 use ignore::WalkBuilder;
 use std::collections::HashMap;
-use std::env;
+use std::{env, fs};
 use std::path::{Path, PathBuf};
 
 fn get_subfolders_path(folder_path: &Path) -> Vec<PathBuf> {
@@ -52,6 +52,39 @@ fn get_subfolders_name(folders_path: Vec<PathBuf>) -> HashMap<PathBuf, Vec<Strin
     h
 }
 
+fn update_readme(folder: &Path, subfolders: &[String]) -> std::io::Result<()> {
+    let readme_path = folder.join("README.md");
+    let mut content = String::new();
+
+    // Vérifier si README.md existe et le lire
+    if readme_path.exists() {
+        return Ok(());
+    }
+
+    // Définir le texte de la section "Folder Organization"
+    let new_section = format!(
+        "# Folder Organization\n\n{}\n",
+        subfolders
+            .iter()
+            .map(|name| format!("- {}", name))
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+
+
+    // Sinon, ajouter la section à la fin
+    if !content.is_empty() {
+        content.push_str("\n");
+    }
+    content.push_str(&new_section);
+
+
+    // Écrire les modifications dans le fichier README.md
+    fs::write(&readme_path, content)?;
+
+    Ok(())
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
@@ -84,4 +117,8 @@ fn main() {
 
     println!();
     println!("{:?}", r);
+
+    for (folder, subfolders) in r {
+        update_readme(&folder, &subfolders).expect("TODO: panic message");
+    }
 }
