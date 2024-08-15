@@ -6,7 +6,10 @@ use std::path::{Path, PathBuf};
 fn get_subfolders_path(folder_path: &Path) -> Vec<PathBuf> {
     let mut subfolders_path: Vec<PathBuf> = Vec::new();
 
-    let walker = WalkBuilder::new(folder_path).git_ignore(true).build().flatten();
+    let walker = WalkBuilder::new(folder_path)
+        .git_ignore(true)
+        .build()
+        .flatten();
 
     for entry in walker {
         let current_path = entry.path();
@@ -28,7 +31,8 @@ fn get_subfolders_name(folders_path: Vec<PathBuf>) -> HashMap<PathBuf, Vec<Strin
         let walker = WalkBuilder::new(&folder)
             .max_depth(Some(1))
             .git_ignore(true)
-            .build().flatten();
+            .build()
+            .flatten();
 
         for entry in walker {
             let current_path = entry.path();
