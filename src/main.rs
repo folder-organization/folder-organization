@@ -69,7 +69,11 @@ fn markdown_content(folder: &Path, subfolders: &[String]) -> (String, String) {
         .unwrap_or("")
         .to_string();
 
-    let header = format!("# {} folder\n\n## Description\n\n{}\n", folder_name, default_description(&folder_name));
+    let header = format!(
+        "# {} folder\n\n## Description\n\n{}\n",
+        folder_name,
+        default_description(&folder_name)
+    );
 
     // Définir le texte de la section "Folder Organization"
     let mut new_section = format!(
