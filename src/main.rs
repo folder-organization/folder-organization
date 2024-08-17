@@ -69,11 +69,11 @@ fn markdown_content(folder: &Path, subfolders: &[String]) -> (String, String) {
         .unwrap_or("")
         .to_string();
 
-    let header = format!("# {} folder\n\n## Description\n\ntodo\n", folder_name);
+    let header = format!("# {} folder\n\n## Description\n\n{}\n", folder_name, default_description(&folder_name));
 
     // Définir le texte de la section "Folder Organization"
     let mut new_section = format!(
-        "\n## Folder organization\n\n{}\n",
+        "## Folder organization\n\n{}\n",
         subfolders
             .iter()
             .map(|name| format!("[`📂 {}`]({})\n> {}", name, name, default_description(name)))
@@ -105,7 +105,7 @@ fn update_readme(folder: &Path, subfolders: &[String]) -> std::io::Result<()> {
             readme_content.replacen(section_start, &new_section, 1)
         } else {
             // Ajouter la section à la fin si elle n'existe pas
-            format!("{}{}", readme_content, new_section)
+            format!("{}\n{}", readme_content, new_section)
         };
 
         // Écrire le contenu mis à jour dans le fichier
@@ -115,7 +115,7 @@ fn update_readme(folder: &Path, subfolders: &[String]) -> std::io::Result<()> {
     }
 
     // Écrire les modifications dans le fichier README.md
-    fs::write(&readme_path, format!("{}{}", header, new_section))?;
+    fs::write(&readme_path, format!("{}\n{}", header, new_section))?;
 
     Ok(())
 }
