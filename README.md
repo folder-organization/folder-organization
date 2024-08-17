@@ -3,11 +3,11 @@
 ## Description
 
 
-Folder Organization is a simple yet powerful Rust tool designed to generate and maintain README.md files within your project directories.
+Folder Organization is a powerful Rust tool designed to generate and maintain `README.md` files within your project directories.
 
 ![](assets/img/terminal-arrow-result.svg)
 
-This script automates the documentation process by detecting subdirectories in a main folder and updating or creating a README.md file in each folder.
+This script automates the documentation process by detecting subdirectories in a main folder and updating or creating a `README.md` file in each folder.
 
 ## 🚀 Features
 
