@@ -1,0 +1,19 @@
+{
+  "folders": {
+    ".": {
+      "folder-name": ".",
+      "title": ". folder",
+      "description": "description",
+      "children": ["./assets", "./docs", "./src", "./tests"]
+    },
+    "./src": {
+      "folder-name": "src",
+      "title": "src folder",
+      "description": "description",
+      "children": ["./src/src1"]
+    }
+  },
+  "options" : {
+    "python-project": false
+  }
+}
