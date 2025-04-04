@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::path::{PathBuf, Path};
 use serde_json::to_string_pretty;
 use std::fs::File;
@@ -17,7 +17,7 @@ pub(crate) struct FolderInfo {
 
 #[derive(Serialize)]
 pub(crate) struct FolderMap {
-    folders: HashMap<String, FolderInfo>,
+    folders: BTreeMap<String, FolderInfo>,
 }
 
 /// Replace "\\" in path for Windows
@@ -27,7 +27,7 @@ fn normalize_path(path: &Path) -> String {
 }
 
 pub(crate) fn build_folder_structure(folders_path: Vec<PathBuf>) -> FolderMap {
-    let mut folders = HashMap::new();
+    let mut folders = BTreeMap::new();
 
     for folder in folders_path {
         let mut children: Vec<String> = Vec::new();
