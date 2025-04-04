@@ -1,8 +1,10 @@
 mod subfolders;
 mod markdown;
+mod json;
 
 use std::path::Path;
 use std::env;
+use crate::json::{build_folder_structure, save_structure_to_json, save_to_json};
 use crate::markdown::update_readme;
 use crate::subfolders::{get_subfolders_name, get_subfolders_path};
 
@@ -35,12 +37,17 @@ fn main() {
 
     println!("{}", result);
 
-    let r = get_subfolders_name(subfolders);
+    // let r = get_subfolders_name(subfolders);
 
     println!();
-    println!("{:?}", r);
+    // println!("{:?}", r);
+    // save_to_json(&r, "output.json").unwrap();
 
-    for (folder, subfolders) in r {
-        update_readme(&folder, &subfolders).expect("TODO: panic message");
-    }
+    let structure = build_folder_structure(subfolders);
+
+    save_structure_to_json(&structure, "structure.json").unwrap();
+
+    // for (folder, subfolders) in r {
+    //     update_readme(&folder, &subfolders).expect("TODO: panic message");
+    // }
 }
