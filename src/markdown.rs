@@ -1,6 +1,6 @@
+use regex::Regex;
 use std::fs;
 use std::path::Path;
-use regex::Regex;
 
 pub(crate) fn default_description(folder_name: &str) -> &str {
     match folder_name {

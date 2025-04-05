@@ -1,9 +1,9 @@
-use std::collections::{BTreeMap, HashMap};
-use std::path::{PathBuf, Path};
+use ignore::WalkBuilder;
 use serde_json::to_string_pretty;
+use std::collections::{BTreeMap, HashMap};
 use std::fs::File;
 use std::io::Write;
-use ignore::WalkBuilder;
+use std::path::{Path, PathBuf};
 
 use serde::Serialize;
 
@@ -22,8 +22,7 @@ pub(crate) struct FolderMap {
 
 /// Replace "\\" in path for Windows
 fn normalize_path(path: &Path) -> String {
-    format!("./{}", path.strip_prefix(".").unwrap_or(path).display())
-        .replace("\\", "/")
+    format!("./{}", path.strip_prefix(".").unwrap_or(path).display()).replace("\\", "/")
 }
 
 pub(crate) fn build_folder_structure(folders_path: Vec<PathBuf>) -> FolderMap {
@@ -47,7 +46,8 @@ pub(crate) fn build_folder_structure(folders_path: Vec<PathBuf>) -> FolderMap {
         }
 
         // nom du dossier courant (ex: "src")
-        let folder_name = folder.file_name()
+        let folder_name = folder
+            .file_name()
             .and_then(|n| n.to_str())
             .unwrap_or(".")
             .to_string();
@@ -73,9 +73,10 @@ pub(crate) fn save_structure_to_json(structure: &FolderMap, path: &str) -> std::
     Ok(())
 }
 
-
-
-pub(crate) fn save_to_json(data: &HashMap<PathBuf, Vec<String>>, path: &str) -> std::io::Result<()> {
+pub(crate) fn save_to_json(
+    data: &HashMap<PathBuf, Vec<String>>,
+    path: &str,
+) -> std::io::Result<()> {
     // Convertir les clés PathBuf en String pour la sérialisation
     let converted: HashMap<String, &Vec<String>> = data
         .iter()

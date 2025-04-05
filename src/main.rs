@@ -1,12 +1,11 @@
-mod subfolders;
-mod markdown;
 mod json;
+mod markdown;
+mod subfolders;
 
 use crate::json::{build_folder_structure, save_structure_to_json};
 use crate::subfolders::get_subfolders_path;
 use std::env;
 use std::path::Path;
-
 
 fn main() {
     let args: Vec<String> = env::args().collect();

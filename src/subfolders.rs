@@ -1,6 +1,6 @@
+use ignore::WalkBuilder;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
-use ignore::WalkBuilder;
 
 pub(crate) fn get_subfolders_path(folder_path: &Path) -> Vec<PathBuf> {
     let mut subfolders_path: Vec<PathBuf> = Vec::new();
