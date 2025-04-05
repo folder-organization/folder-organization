@@ -2,11 +2,10 @@ mod subfolders;
 mod markdown;
 mod json;
 
-use std::path::Path;
+use crate::json::{build_folder_structure, save_structure_to_json};
+use crate::subfolders::get_subfolders_path;
 use std::env;
-use crate::json::{build_folder_structure, save_structure_to_json, save_to_json};
-use crate::markdown::update_readme;
-use crate::subfolders::{get_subfolders_name, get_subfolders_path};
+use std::path::Path;
 
 
 fn main() {
